@@ -2,7 +2,7 @@
 FROM node:alpine
 
 WORKDIR /usr/local/app
-RUN echo '{"name": "multisig-ui", "dependencies": { "http-server": "^0.11.1" }}' > package.jspn && npm install
+RUN echo '{"name": "multisig-ui", "dependencies": { "http-server": "^0.11.1" }}' > package.json && npm install
 
 COPY ./start.sh .
 COPY ./src ./src

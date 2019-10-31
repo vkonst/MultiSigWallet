@@ -14,4 +14,4 @@ try {
 EOF
 
 # Run the server
-exec npx http-server -a 0.0.0.0 -p 5000 src
+exec node ./node_modules/.bin/http-server -a 0.0.0.0 -p 5000 src
