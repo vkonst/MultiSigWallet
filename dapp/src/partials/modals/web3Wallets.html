@@ -9,6 +9,7 @@
   <p>
     This wallet requires a 3rd party Ethereum account management software like
     <a href="https://metamask.io/" class="prevent-focus" target="_blank">Metamask</a>,
+    <a href="https://fortmatic.com/" class="prevent-focus" target="_blank">Fortmatic</a>,
     <a href="https://github.com/ethereum/mist" target="_blank">Mist</a> or
     <a href="https://ethcore.io/parity.html" target="_blank">Parity</a>.
   </p>
@@ -17,6 +18,9 @@
   </p>
   <p ngIf="metamaskInjected">
     <a href="#" ng-click="openMetamaskWidgetAndClose()">Unlock Metamask</a>
+  </p>
+  <p>
+    <a href="#" ng-click="useFortmaticWallet()">Use Fortmatic Wallet</a>
   </p>
 </div>
 <div class="modal-footer">

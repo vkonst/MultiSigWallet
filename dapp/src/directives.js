@@ -262,6 +262,10 @@
                   value: 'Default (MetaMask, Mist, Parity ...)',
                 },
                 {
+                  name: 'fortmatic',
+                  value: 'Fortmatic wallet',
+                },
+                {
                   name: 'ledger',
                   value: 'Ledger Wallet',
                 },

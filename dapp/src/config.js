@@ -142,23 +142,28 @@ var txDefault = {
   ethereumNodes : [
     {
       url : "https://mainnet.infura.io:443",
-      name: "Remote Mainnet"
+      name: "Remote Mainnet",
+      net: "mainnet"
     },
     {
       url : "https://ropsten.infura.io:443",
-      name: "Remote Ropsten"
+      name: "Remote Ropsten",
+      net: "ropsten"
     },
     {
       url : "https://kovan.infura.io:443",
-      name: "Remote Kovan"
+      name: "Remote Kovan",
+      net: "kovan"
     },
     {
       url : "https://rinkeby.infura.io:443",
-      name: "Remote Rinkeby"
+      name: "Remote Rinkeby",
+      net: "rinkeby"
     },
     {
       url : "http://localhost:8545",
-      name: "Local node"
+      name: "Local node",
+      net: "privatenet"
     }
   ],
   walletFactoryAddresses: {
@@ -182,8 +187,24 @@ var txDefault = {
       name: 'Privatenet',
       address: '0xd79426bcee5b46fde413ededeb38364b3e666097'
     }
+  },
+  fortmaticApiKeySets: {
+    'mainnet': {key: '{{MAINNET_FORTMATIC_KEY}}', netSelector: undefined},
+    'ropsten': {key: '{{TESTNET_FORTMATIC_KEY}}', netSelector: 'ropsten'},
+    'kovan':   {key: '{{TESTNET_FORTMATIC_KEY}}', netSelector: 'kovan'},
+    'rinkeby': {key: '{{TESTNET_FORTMATIC_KEY}}', netSelector: undefined},
+    'privatenet': undefined
   }
 };
+
+function getFortmaticApiKeySet() {
+  if (!txDefault || txDefault.wallet !== 'fortmatic' || !txDefault.ethereumNode) return undefined;
+
+  let node = txDefault.ethereumNodes.find(e => e.url === txDefault.ethereumNode);
+  if (!node) return undefined;
+
+  return txDefault.fortmaticApiKeySets[node.net];
+}
 
 var oldWalletFactoryAddresses = [
   ("0x12ff9a987c648c5608b2c2a76f58de74a3bf1987").toLowerCase(),

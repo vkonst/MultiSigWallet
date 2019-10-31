@@ -64,6 +64,11 @@
             web3 = $window.ethereum;
           }
 
+          if (!web3 && txDefault.wallet === "fortmatic") {
+            // Bundled package
+            web3 = Web3;
+          }
+
           if (!web3) {
             reject('Web3 Provider not connected');
             return;
@@ -101,8 +106,15 @@
             }
           }
           // injected web3 provider (Metamask, mist, etc)
-          else if (txDefault.wallet == "injected" && web3 && !isElectron) {
-            factory.web3 = web3.currentProvider !== undefined ? new MultisigWeb3(web3.currentProvider) : new MultisigWeb3(web3);
+          else if (( txDefault.wallet == "injected" || txDefault.wallet == "fortmatic" ) && web3 && !isElectron) {
+
+            let provider = web3.currentProvider;
+            if (txDefault.wallet === "fortmatic") {
+              let keySet = getFortmaticApiKeySet();
+              if (keySet) provider = (new Fortmatic(keySet.key, keySet.netSelector)).getProvider();
+            }
+
+            factory.web3 = provider !== undefined ? new MultisigWeb3(provider) : new MultisigWeb3(web3);
             // Set accounts
             // Convert to checksummed addresses
             factory.web3.eth.getAccounts(function (e, accounts) {
@@ -182,7 +194,7 @@
           } else if (typeof item == "object") {
             checkSummedItem = {};
             var checkSummedKey;
-            for (key in item) {
+            for (let key in item) {
               checkSummedKey = key.startsWith('0x') ? factory.web3.toChecksumAddress(key) : key;
               checkSummedItem[checkSummedKey] = (typeof item[key] == "string" && item[key].startsWith('0x')) ? factory.web3.toChecksumAddress(item[key]) : item[key];
 
@@ -851,7 +863,7 @@
           else if (factory.getKeystore()) {
             var _address;
             Config.getConfiguration('accounts').map(function (account) {
-              address = '0x' + account.address.replace('0x', '');
+              _address = '0x' + account.address.replace('0x', '');
               addr.push(factory.toChecksumAddress(_address));
             });
           }
